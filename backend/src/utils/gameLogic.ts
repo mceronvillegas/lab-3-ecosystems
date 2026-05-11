@@ -1,4 +1,4 @@
-import { Choice } from '../types';
+import { Choice } from '../types/gameTypes';
 
 export const getWinner = (p1Choice: Choice, p2Choice: Choice): 'player1' | 'player2' | 'draw' => {
 
