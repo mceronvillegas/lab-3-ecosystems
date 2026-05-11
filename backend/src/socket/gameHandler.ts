@@ -41,7 +41,7 @@ export const setupSocketHandlers = (io: Server, socket: Socket) => {
         const room = rooms[roomId];
         if (!room || room.status !== 'full') return;
 
-        const player = room.players.find((p:any) => p.id === socket.id);
+        const player = room.players.find(p => p.id === socket.id);
         if (player && player.choice === null) {
             player.choice = choice;
             player.timeTaken = parseFloat(((Date.now() - (room.roundStartTime || Date.now())) / 1000).toFixed(2));
@@ -49,16 +49,20 @@ export const setupSocketHandlers = (io: Server, socket: Socket) => {
             io.to(roomId).emit('player_ready', { playerId: socket.id });
         }
 
-        const allReady = room.players.every((p:any) => p.choice !== null);
+        const allReady = room.players.every(p => p.choice !== null);
         
         if (allReady && room.players.length === 2) {
             const p1 = room.players[0];
             const p2 = room.players[1];
-            const techResult = getWinner(p1.choice!, p2.choice!);
+            
+            const techResult = String(getWinner(p1.choice!, p2.choice!)).toLowerCase();
 
             let finalWinner = 'draw';
-            if (techResult === 'player1') finalWinner = p1.alias;
-            if (techResult === 'player2') finalWinner = p2.alias;
+            if (techResult.includes('1')) {
+                finalWinner = p1.alias;
+            } else if (techResult.includes('2')) {
+                finalWinner = p2.alias;
+            }
 
             room.status = 'finished';
 

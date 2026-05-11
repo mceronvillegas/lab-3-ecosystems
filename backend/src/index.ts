@@ -1,15 +1,15 @@
-import 'dotenv/config'; // Carga tu archivo .env
+import 'dotenv/config'; 
 import express from 'express';
-import { createServer } from 'http'; // Necesario para que Socket.io funcione
+import { createServer } from 'http'; 
 import { Server } from 'socket.io';
 import cors from 'cors';
 import { setupSocketHandlers } from './socket/gameHandler';
 
 const app = express();
-app.use(cors()); // Permite que el front se conecte sin bloqueos
+app.use(cors()); 
 
 app.get('/', (req, res) => {
-    res.send('🚀 El servidor está vivo y escuchando perfectamente');
+    res.send('El servidor está vivo y escuchando perfectamente');
 });
 app.use(express.json());
 
